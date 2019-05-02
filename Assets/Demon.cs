@@ -85,6 +85,8 @@ public class Demon : MonoBehaviour
 
     private int score;
 
+    public int choice = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -134,6 +136,7 @@ public class Demon : MonoBehaviour
                 selectStart = Time.time;
                 writer.WriteSegment();
                 vis = true;
+                move.BeginHold(999f);
                 if(direction == 1)
                 {
                     if(mode == 2){
@@ -164,6 +167,44 @@ public class Demon : MonoBehaviour
         
         else if(segment == segments.Selection)
         {
+            if(choice == 0)
+            {
+                move.BeginHold(999f);
+                if(Input.GetAxis("Horizontal") < 0)
+                {
+                    choice = 1;
+                    move.EndHold();
+                    move.choiceAxis = -1f;
+                }
+                else if(Input.GetAxis("Horizontal") > 0)
+                {
+                    choice = 2;
+                    move.EndHold();
+                    move.choiceAxis = 1f;
+                }
+            }
+
+            if(choice == 1 && direction == 1){
+                if(transform.eulerAngles.y <= east - 50){
+                    move.choiceAxis = 0f;
+                }
+            }
+            else if(choice == 1 && direction == 2){
+                if(transform.eulerAngles.y <= west - 50){
+                    move.choiceAxis = 0f;
+                }
+            }
+            else if(choice == 2 && direction == 1){
+                if(transform.eulerAngles.y >= east + 50){
+                    move.choiceAxis = 0f;
+                }
+            }
+            else if(choice == 2 && direction == 2){
+                if(transform.eulerAngles.y >= west + 50){
+                    move.choiceAxis = 0f;
+                }
+            }
+
             if(vis && Time.time - selectStart >= visibleTime)
             {
                 ClearVisibility();
@@ -332,6 +373,8 @@ public class Demon : MonoBehaviour
             writer.WriteSelect(select, reward, score);
             scoreText.text = score.ToString();
             move.BeginHold(returnTime);
+            choice = 0;
+            move.choiceAxis = 0f;
 
             if(direction == 1)
             {
@@ -378,8 +421,7 @@ public class Demon : MonoBehaviour
             else if(transform.eulerAngles.y > east)
             {
                 move.rotate.y -= Time.deltaTime * rate;
-                if(transform.eulerAngles.y + move.rotate.y < east &&
-                    transform.eulerAngles.y + move.rotate.y > west)
+                if(transform.eulerAngles.y + move.rotate.y < east)
                 {
                     move.rotate.y = east - transform.eulerAngles.y;
                 }
@@ -399,8 +441,7 @@ public class Demon : MonoBehaviour
             else if(transform.eulerAngles.y < west)
             {
                 move.rotate.y += Time.deltaTime * rate;
-                if(transform.eulerAngles.y + move.rotate.y > west &&
-                    transform.eulerAngles.y + move.rotate.y < east)
+                if(transform.eulerAngles.y + move.rotate.y > west)
                 {
                     move.rotate.y = west - transform.eulerAngles.y;
                 }
