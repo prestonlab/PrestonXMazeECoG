@@ -87,6 +87,8 @@ public class Demon : MonoBehaviour
 
     public int choice = 0;
 
+    public float choiceAngle = 50f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -185,22 +187,25 @@ public class Demon : MonoBehaviour
             }
 
             if(choice == 1 && direction == 1){
-                if(transform.eulerAngles.y <= east - 50){
+                if(transform.eulerAngles.y <= east - choiceAngle){
                     move.choiceAxis = 0f;
                 }
             }
             else if(choice == 1 && direction == 2){
-                if(transform.eulerAngles.y <= west - 50){
+                if(transform.eulerAngles.y <= west - choiceAngle)
+                {
                     move.choiceAxis = 0f;
                 }
             }
             else if(choice == 2 && direction == 1){
-                if(transform.eulerAngles.y >= east + 50){
+                if(transform.eulerAngles.y >= east + choiceAngle)
+                {
                     move.choiceAxis = 0f;
                 }
             }
             else if(choice == 2 && direction == 2){
-                if(transform.eulerAngles.y >= west + 50){
+                if(transform.eulerAngles.y >= west + choiceAngle)
+                {
                     move.choiceAxis = 0f;
                 }
             }
