@@ -14,6 +14,7 @@ public class FileReader : MonoBehaviour
     public GameObject[] sprites;
 
     private int mode;
+    private int direction;
 
     private string modeStr;
     private string partStr;
@@ -84,6 +85,8 @@ public class FileReader : MonoBehaviour
             writer.mode = mode;
             writer.partCode = partStr;
             writer.runNum = int.Parse(runStr);
+            direction = int.Parse(startStr);
+            writer.direction = direction;
         }
         catch(Exception e)
         {
@@ -91,9 +94,11 @@ public class FileReader : MonoBehaviour
 			Debug.LogError(e);
 			Application.Quit();
 		}
+
+        DontDestroyOnLoad(gameObject);
     }
 
-    void XMazeInit()
+    public void XMazeInit()
     {
         player = GameObject.FindWithTag("Player");
         demon = player.GetComponent<Demon>();
@@ -119,7 +124,7 @@ public class FileReader : MonoBehaviour
             demon.returnTime = float.Parse(returnStr);
             demon.totalTime = float.Parse(totalStr);
 
-            demon.direction = int.Parse(startStr);
+            demon.direction = direction;
             if(int.Parse(startStr) == 1)
             {
                 player.transform.position = new Vector3(demon.westXPos, demon.yPos, demon.zPos);
