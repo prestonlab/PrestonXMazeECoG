@@ -13,6 +13,8 @@ public class FileReader : MonoBehaviour
 
     public GameObject[] sprites;
 
+    private int mode;
+
     private string modeStr;
     private string partStr;
     private string runStr;
@@ -42,12 +44,8 @@ public class FileReader : MonoBehaviour
     // Awake is called when the script instance is being loaded
     void Awake()
     {
-        player = GameObject.FindWithTag("Player");
-        demon = player.GetComponent<Demon>();
         writer = GameObject.Find("FileWriter").GetComponent<FileWriter>();
 
-        sprites = GameObject.FindGameObjectsWithTag("Sphere");
-        
         try
         {
             StreamReader reader = new StreamReader("Config.txt");
@@ -82,9 +80,28 @@ public class FileReader : MonoBehaviour
 
         try
         {
-            demon.mode = int.Parse(modeStr);
+            mode = int.Parse(modeStr);
+            writer.mode = mode;
             writer.partCode = partStr;
             writer.runNum = int.Parse(runStr);
+        }
+        catch(Exception e)
+        {
+			Debug.LogError("Error parsing file!!");
+			Debug.LogError(e);
+			Application.Quit();
+		}
+    }
+
+    void XMazeInit()
+    {
+        player = GameObject.FindWithTag("Player");
+        demon = player.GetComponent<Demon>();
+        sprites = GameObject.FindGameObjectsWithTag("Sphere");
+
+        try
+        {
+            demon.mode = mode;
             player.GetComponent<SimpleMovement>().moveSpeed = float.Parse(speedStr);
 
             foreach(Camera c in player.GetComponentsInChildren<Camera>())

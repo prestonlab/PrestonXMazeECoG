@@ -7,8 +7,7 @@ using UnityEngine;
 public class FileWriter : MonoBehaviour
 {
 
-    public GameObject player;
-
+    private GameObject player;
     private Transform playPos;
     private Demon demon;
 
@@ -23,6 +22,7 @@ public class FileWriter : MonoBehaviour
 
     private string fileName;
     public int runNum;
+    public int mode;
 
     private float framePer;
 
@@ -33,14 +33,18 @@ public class FileWriter : MonoBehaviour
     StreamReader lastRunReader;
     StreamWriter writer;
 
+    bool write = false;
+    bool XMazeLoaded = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
         playPos = player.GetComponent<Transform>();
         demon = player.GetComponent<Demon>();
 
         fileName = partCode + "_";
-        if(demon.mode == 1)
+        if(mode == 1)
         {
             fileName += "practice";
         }

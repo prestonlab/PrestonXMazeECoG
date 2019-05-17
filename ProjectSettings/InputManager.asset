@@ -8,9 +8,9 @@ InputManager:
   - serializedVersion: 3
     m_Name: Horizontal
     descriptiveName: 
-    descriptiveNegativeName: 
+    descriptiveNegativeName: "\x13"
     negativeButton: 1
-    positiveButton: 2
+    positiveButton: 3
     altNegativeButton: a
     altPositiveButton: d
     gravity: 1000
