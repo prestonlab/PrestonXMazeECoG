@@ -72,6 +72,8 @@ public class FileWriter : MonoBehaviour
         writer.WriteLine(format2);
 
         DontDestroyOnLoad(gameObject);
+
+        lastFrame = Time.time;
     }
 
     public void XMazeInit()
@@ -83,7 +85,6 @@ public class FileWriter : MonoBehaviour
         XMazeLoaded = true;
 
         //WriteFrame();
-        lastFrame = Time.time;
         trialStart = Time.time;
     }
 
