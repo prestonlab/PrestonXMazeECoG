@@ -8,10 +8,10 @@ public class SquareManager : MonoBehaviour {
 	public Transform BlackSquare;
 
 	//Reference to main configuration script
-	private FPSChanger fps;
+	private Demon fps;
 
 	void Awake() {
-		fps = GameObject.FindWithTag ("Logic").GetComponent<FPSChanger> ();
+		fps = GameObject.FindWithTag ("Assets").GetComponent<Demon> ();
 	}
 
 	public void Swap() {
