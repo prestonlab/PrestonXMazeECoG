@@ -1318,10 +1318,10 @@ MonoBehaviour:
   objectSE: {fileID: 5520277279363209589}
   objectSW: {fileID: 638385903}
   objectNW: {fileID: 436082430}
-  goalNE: {fileID: 0}
-  goalSE: {fileID: 0}
-  goalSW: {fileID: 0}
-  goalNW: {fileID: 0}
+  goalNE: {fileID: 672584509}
+  goalSE: {fileID: 50066417}
+  goalSW: {fileID: 1679139774}
+  goalNW: {fileID: 1492933312}
   writer: {fileID: 0}
   reader: {fileID: 0}
   contextList:
