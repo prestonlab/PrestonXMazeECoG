@@ -9,8 +9,8 @@ InputManager:
     m_Name: Horizontal
     descriptiveName: 
     descriptiveNegativeName: "\x13"
-    negativeButton: 1
-    positiveButton: 3
+    negativeButton: 4
+    positiveButton: 6
     altNegativeButton: a
     altPositiveButton: d
     gravity: 1000
