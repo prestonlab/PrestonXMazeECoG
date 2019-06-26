@@ -95,6 +95,15 @@ public class Demon : MonoBehaviour
 
     public float choiceAngle = 50f;
 
+    private bool wasWhite = false;
+    public bool isWhite = false;
+    private bool doLog = false;
+
+    private SoundLogger syncLogger;
+    private SoundLogger frameLogger;
+    private readonly string syncFileName = "soundoutput.xml";
+    private readonly string frameFileName = "frames.xml";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,6 +111,9 @@ public class Demon : MonoBehaviour
         reader.XMazeInit();
         writer = GameObject.Find("FileWriter").GetComponent<FileWriter>();
         writer.XMazeInit();
+
+        syncLogger = new SoundLogger(syncFileName);
+        frameLogger = new SoundLogger(frameFileName);
 
         segment = segments.Hallway;
         move = GetComponent<SimpleMovement>();
@@ -117,7 +129,19 @@ public class Demon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(segment == segments.Hallway)
+        if (doLog)
+        {
+            syncLogger.Log(Time.time.ToString());
+            doLog = false;
+        }
+        frameLogger.Log(Time.time.ToString());
+        if ((wasWhite && !isWhite) || (!wasWhite && isWhite))
+        {
+            wasWhite = !wasWhite;
+            doLog = true; // log frame start time at start of next frame; assuming this is relatively close to display time
+        }
+
+        if (segment == segments.Hallway)
         {
             if(direction == 1 && transform.position.x >= eastXPos)
             {
@@ -490,4 +514,9 @@ public class Demon : MonoBehaviour
         contextS.SendMessage(contextList[0]);
     }
 
+    void OnDestroy()
+    {
+        syncLogger.Dispose();
+        frameLogger.Dispose();
+    }
 }
