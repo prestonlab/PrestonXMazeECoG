@@ -105,12 +105,12 @@ public class Demon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        syncLogger = new SoundLogger(syncFileName);
-
         reader = GameObject.Find("FileReader").GetComponent<FileReader>();
         reader.XMazeInit();
         writer = GameObject.Find("FileWriter").GetComponent<FileWriter>();
         writer.XMazeInit();
+
+        syncLogger = new SoundLogger(syncFileName);
 
         segment = segments.Hallway;
         move = GetComponent<SimpleMovement>();
@@ -510,4 +510,8 @@ public class Demon : MonoBehaviour
         contextS.SendMessage(contextList[0]);
     }
 
+    void OnDestroy()
+    {
+        syncLogger.Dispose();
+    }
 }
