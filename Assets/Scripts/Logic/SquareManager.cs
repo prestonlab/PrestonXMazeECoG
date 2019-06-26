@@ -11,7 +11,7 @@ public class SquareManager : MonoBehaviour {
 	private Demon fps;
 
 	void Awake() {
-		fps = GameObject.FindWithTag ("Assets").GetComponent<Demon> ();
+		fps = GameObject.FindWithTag ("Player").GetComponent<Demon> ();
 	}
 
 	public void Swap() {
