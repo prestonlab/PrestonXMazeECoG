@@ -11,6 +11,12 @@ public class SpriteObject : MonoBehaviour
     public Material spr4;
     public Material spr5;
     public Material spr6;
+    public Material spr7;
+    public Material spr8;
+    public Material spr9;
+    public Material spr10;
+    public Material spr11;
+    public Material spr12;
 
     void Start()
     {
