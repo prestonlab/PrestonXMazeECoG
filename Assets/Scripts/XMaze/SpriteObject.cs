@@ -59,6 +59,36 @@ public class SpriteObject : MonoBehaviour
             GetComponent<MeshRenderer>().material = spr6;
             GetComponent<MeshRenderer>().enabled = true;
         }
+        else if (num == 7)
+        {
+            GetComponent<MeshRenderer>().material = spr7;
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+        else if (num == 8)
+        {
+            GetComponent<MeshRenderer>().material = spr8;
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+        else if (num == 9)
+        {
+            GetComponent<MeshRenderer>().material = spr9;
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+        else if (num == 10)
+        {
+            GetComponent<MeshRenderer>().material = spr10;
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+        else if (num == 11)
+        {
+            GetComponent<MeshRenderer>().material = spr11;
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+        else if (num == 12)
+        {
+            GetComponent<MeshRenderer>().material = spr12;
+            GetComponent<MeshRenderer>().enabled = true;
+        }
         //Debug.Log(name + ", Sprite: " + num);
     }
 
