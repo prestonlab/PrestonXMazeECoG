@@ -27,6 +27,8 @@ public class Demon : MonoBehaviour
     public int[] leftRewards;
     public int[] rightObjects;
     public int[] rightRewards;
+    public float[] choiceDelays;
+    public float[] rewardDelays;
 
     public float westXPos = 184.2314f;
     public float eastXPos = 304.2314f;
@@ -53,7 +55,9 @@ public class Demon : MonoBehaviour
         Hallway,
         HoldA,
         Selection,
+        Choice,
         Reward,
+        Return,
         HoldB,
         EndRun
     };
@@ -87,6 +91,7 @@ public class Demon : MonoBehaviour
 
     private float choiceStart;
     private float selectStart;
+    private float delayStart;
     private bool vis;
 
     private int score;
@@ -262,14 +267,32 @@ public class Demon : MonoBehaviour
                 GiveReward(null);
             }
         }
+
+        else if(segment == segments.Choice)
+        {
+            if(Time.time - delayStart >= choiceDelays[trialNum])
+            {
+                segment = segments.Reward;
+                writer.WriteSegment();
+                delayStart = Time.time;
+                rewardText.enabled = true;
+                move.BeginHold(999f);
+            }
+        }
         
         else if(segment == segments.Reward)
         {
-            if(vis) //Need to wait?
+            if(Time.time - delayStart >= rewardDelays[trialNum]) 
             {
-                ClearVisibility();
+		segment = segments.Return;
+                writer.WriteSegment();
+                rewardText.enabled = false;
+                move.BeginHold(returnTime);
             }
-            
+        }
+
+        else if(segment == segments.Return)
+        {
             if(direction == 2)
             {
                 if(transform.position.x > eastXPos)
@@ -353,6 +376,7 @@ public class Demon : MonoBehaviour
         {
             if(endTimer <= 0)
             {
+                //Debug.Log("Quit!");
                 Application.Quit();
             }
             endTimer -= Time.deltaTime;
@@ -413,7 +437,20 @@ public class Demon : MonoBehaviour
                 }
             }
 
-            segment = segments.Reward;
+            rewardText.text = preRew + reward.ToString();
+            score += reward;
+            writer.WriteSelect(select, reward, score);
+            segment = segments.Choice;
+            writer.WriteSegment();
+            scoreText.text = score.ToString();
+            choice = 0;
+            move.choiceAxis = 0f;
+            delayStart = Time.time;
+            move.BeginHold(999f);
+            ClearVisibility();
+
+            /*
+            segment = segments.Choice;
             writer.WriteSegment();
             rewardText.text = preRew + reward.ToString();
             rewardText.enabled = true;
@@ -423,6 +460,7 @@ public class Demon : MonoBehaviour
             move.BeginHold(returnTime);
             choice = 0;
             move.choiceAxis = 0f;
+            */
 
             if(direction == 1)
             {
@@ -505,15 +543,8 @@ public class Demon : MonoBehaviour
             return;
         }
 
-        try
-        {
             contextN.SendMessage(contextList[contexts[trialNum]]);
             contextS.SendMessage(contextList[contexts[trialNum]]);
-        }
-        catch
-        {
-            Debug.Log("Context machine broke.");
-        }
     }
 
     void ClearContexts()
